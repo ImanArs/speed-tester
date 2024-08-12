@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+:root {
+  background-color: #eaeaea;
+  /* background-color: #87a6a8; */
+
+  --card-bg-purple: #d1a6e2;
+  --card-bg-purple-hover: #d97aff;
+
+  --card-bg-yellow: #f8d568;
+  --card-bg-yellow-hover: #ffd24c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: background-color;
+  font-family: "Inter", sans-serif;
+
+}

@@ -1,0 +1,50 @@
+.root {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 18px;
+  input {
+    font-size: 44px;
+    width: 10%;
+    border-radius: 5px;
+    background: none;
+    border: none;
+    outline: none;
+    text-align: right;
+    font-weight: 500;
+  }
+  .textWrapper {
+    color: #000;
+    line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 44px;
+    span {
+      padding: 4px 4px;
+      font-weight: 500;
+      font-size: 44px;
+      border-radius: 4px;
+    }
+    .errorLetter:first-child {
+      color: inherit;
+      animation: fadeInOut .4s ease-in-out;
+      background-color: #0000;
+      transition: all 0.5s ease-in-out;
+    }
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    background-color: #0000;
+  }
+  50% {
+    background-color: rgb(224, 45, 45);
+  }
+  100% {
+    background-color: #0000;
+  }
+}

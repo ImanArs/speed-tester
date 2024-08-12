@@ -1,0 +1,51 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  .section {
+    padding: 22px;
+    width: 100%;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    transition: all ease-in-out 0.3s;
+    .info {
+      flex-direction: column;
+      gap: 24px;
+      
+      h3 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: #fff;
+      }
+    }
+    button {
+      color: #fff;
+      background: none;
+      border: 2px solid #fff;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 20px;
+      transition: all ease-in-out 0.3s;
+      cursor: pointer;
+      &:hover {
+        background: #fff4;
+      }
+    }
+    &:first-child {
+      background: var(--card-bg-purple);
+      
+      &:hover {
+        box-shadow: 0px 0px 20px var(--card-bg-purple-hover);
+      }
+    }
+    &:last-child {
+      background: var(--card-bg-yellow);
+      &:hover {
+        box-shadow: 0px 0px 20px var(--card-bg-yellow-hover);
+      }
+    }
+  }
+}
