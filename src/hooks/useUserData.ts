@@ -3,39 +3,59 @@ import { create } from "zustand";
 type GameStats = 'words' | 'letters'
 
 interface UserStore {
-  userName: string
-  userStatsWords: number[]
-  userStatsLetters: number[]
-  userTotalGames: number
+  user: {
+    name: string
+    stats: {
+      words: number
+      lastTimeWords: number
+      letters: number
+      lastTimeLetters: number
+    }
+    totalGames: number
+  }
   getUserStorage: () => void
   setUserStorage: () => void
-  updateUserStats: (type: GameStats,newStats: number) => void
+  updateUserBestStats: (type: GameStats, newStats: number) => void
+  updateUserLastStats: (type: GameStats, newStats: number) => void
   updateUserTotalGames: () => void
 }
 
 export const useUserData = create<UserStore>((set, get) => ({
-  userName: 'John Doe',
-  userStatsWords: [],
-  userStatsLetters: [],
-  userTotalGames: 0,
+  user: {
+    name: 'Ученик',
+    stats: {
+      words: 0,
+      lastTimeWords: 0,
+      letters: 0,
+      lastTimeLetters: 0,
+    },
+    totalGames: 0
+  },
   getUserStorage: () => {
-    const storage = localStorage.getItem('userData')
-    if (storage) {
-      const { userName, userStatsWords, userStatsLetters, userTotalGames } = JSON.parse(storage)
-      set({ userName, userStatsWords, userStatsLetters, userTotalGames })
-    }
+    const storage = JSON.parse(localStorage.getItem('user') || 'null')
+    set({ user: storage })
   },
   setUserStorage: () => {
-    const { userName, userStatsWords, userStatsLetters, userTotalGames } = get()
-    localStorage.setItem('userData', JSON.stringify({ userName, userStatsWords, userStatsLetters, userTotalGames }))
+    const { user } = get()
+    localStorage.setItem('userData', JSON.stringify(user))
   },
-  updateUserStats: (type, newStats) => {
-    const { userStatsWords, userStatsLetters } = get()
+  updateUserBestStats: (type, newStats) => {
+      if (type === 'words') {
+        localStorage.setItem('user', JSON.stringify({ ...get().user, stats: { ...get().user.stats, words: newStats } }))
+      }
+      if (type === 'letters') {
+        localStorage.setItem('user', JSON.stringify({ ...get().user, stats: { ...get().user.stats, letters: newStats } }))
+      }
+    },
+  updateUserLastStats: (type: GameStats, newStats: number) => {
     if (type === 'words') {
-      set({ userStatsWords: [...userStatsWords, newStats] })
-    } else {
-      set({ userStatsLetters: [...userStatsLetters, newStats] })
+      localStorage.setItem('user', JSON.stringify({ ...get().user, stats: { ...get().user.stats, lastTimeWords: newStats } }))
+    } 
+    if (type === 'letters') {
+      localStorage.setItem('user', JSON.stringify({ ...get().user, stats: { ...get().user.stats, lastTimeLetters: newStats } }))
     }
   },
-  updateUserTotalGames: () => set((state) => ({ userTotalGames: state.userTotalGames + 1 }))
+  updateUserTotalGames: () => {
+    set((state) => ({ user: { ...state.user, totalGames: state.user.totalGames + 1 } }))
+  }
 }))

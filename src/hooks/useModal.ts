@@ -1,13 +1,14 @@
-import { create } from "zustand";
+import React from "react";
 
-export const useModal = create<{
-  isModalOpen: boolean;
-  toggleModal: () => void;
-  openModal: () => void;
-  closeModal: () => void;
-}>((set) => ({
-  isModalOpen: false,
-  toggleModal: () => set((state) => ({ isModalOpen: !state.isModalOpen })),
-  openModal: () => set({ isModalOpen: true }),
-  closeModal: () => set({ isModalOpen: false }),
-}))
+export const useModal = () => {
+  const [isModalOpen, setIsOpen] = React.useState(false)
+
+  const openModal = React.useCallback(() => setIsOpen(true), [])
+  const closeModal = React.useCallback(() => setIsOpen(false), [])
+
+  return {
+    isModalOpen,
+    openModal,
+    closeModal,
+  }
+}

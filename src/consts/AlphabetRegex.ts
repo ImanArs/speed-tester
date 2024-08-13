@@ -1,0 +1,1 @@
+export const englishAlphabetRegex = /[a-zA-Z]/;

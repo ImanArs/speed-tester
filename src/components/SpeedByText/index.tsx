@@ -2,24 +2,39 @@ import { useEffect, useState } from 'react'
 import { InputTextReduce } from '../inputTextReduce'
 import { ChallengeGreet } from '../ChallengeGreet'
 import { Timer } from '../timer'
-import { useTimerStore } from '../../hooks/useTimer'
+import { useTimer } from '../../hooks/useTimer'
 import { StatisticPerformance } from '../StatisticPerformance'
 import cls from './styles.module.scss'
-import { Modal } from 'antd'
 import { useModal } from '../../hooks/useModal'
+import { Modal } from '../Modal'
+import { getRandomStoryTale } from '../../consts/sentences'
+import { useUserData } from '../../hooks/useUserData'
+import { ToHome } from '../ToHomeLink'
 
 export const SpeedByTextPage = () => {
   const { isModalOpen, openModal, closeModal} = useModal()
-  const { time, isRunning, startTimer, stopTimer, resetTimer } = useTimerStore()
+  const { time, isRunning, startTimer, stopTimer, resetTimer } = useTimer()
+  const { user, getUserStorage, updateUserBestStats, updateUserTotalGames, updateUserLastStats } = useUserData()
   const [completedLetters, setCompletedLetters] = useState(0)
-  const [currentText, setCurrentText] = useState<string>('всем приветики пистолетики вот так вот ну и типо так')
+  const [currentText, setCurrentText] = useState<string>(getRandomStoryTale())
+
+  
+  useEffect(() => {
+    getUserStorage()
+  }, [])
 
   useEffect(() => {
     if (time === 0) {
       stopTimer()
       openModal()
+      updateUserLastStats('letters', completedLetters)
+      updateUserTotalGames()
+      getUserStorage()
     }
-  }, [time, stopTimer, completedLetters])
+    if (user.stats.words < completedLetters) {
+      updateUserBestStats('letters', completedLetters)
+    }
+  }, [time, completedLetters])
 
   const handleLetterComplete = () => {
     setCompletedLetters(prev => prev + 1)
@@ -30,35 +45,36 @@ export const SpeedByTextPage = () => {
   }
 
   return (
-    <div>
+    <main>
+      <ToHome />
       <h1>Узнать скорость в буквах</h1>
       <div className={cls.grid}>
-        <StatisticPerformance bestStats={0} currentStats={completedLetters} />
+        <StatisticPerformance />
         <ChallengeGreet />
         <Timer
           time={time}
           onStart={startTimer}
-          resetTimer={() => resetTimer(60)}
+          resetTimer={resetTimer}
           isRunning={isRunning}
         />
-        <InputTextReduce 
-          text={currentText} 
+        <InputTextReduce
+          disabled={time === 0}
+          onStart={startTimer}
+          text={currentText}
+          type='letter'
           onWordComplete={handleLetterComplete} 
           onTextChange={handleLetterTextChange} 
         />
       </div>
-      <p>Завершено букв: {completedLetters}</p>
       <Modal
-
-        onOk={() => console.log('ok')} 
-        open={isModalOpen}
-        onCancel={closeModal}
-        footer={
-          <button className={cls.modalBtn} onClick={closeModal}>Закрыть</button>
-        }
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        className={cls.modal}
       >
+        <img src="https://img.freepik.com/free-vector/cernye-ludi-derzat-koncepciu-megafona_114360-16298.jpg" alt="" />
         <h1>Время вышло! Вы завершили {completedLetters} букв.</h1>
+        <button className={cls.closeBtn} onClick={closeModal}>понятно</button>
       </Modal>
-    </div>
+    </main>
   )
 }

@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-:root {
-  background-color: #eaeaea;
-  /* background-color: #87a6a8; */
 
+:root {
+  --background-color: #f5f5f5; /* Светло-серый фон */
+  --header-bg-color: #4b0082; /* Темно-фиолетовый для хедера */
+  --header-text-color: #ffffff; /* Белый текст в хедере */
   --card-bg-purple: #d1a6e2;
   --card-bg-purple-hover: #d97aff;
-
   --card-bg-yellow: #f8d568;
   --card-bg-yellow-hover: #ffd24c;
+  --text-color: #333333; /* Темный текст */
+  --stat-bg-color: #ffffff; /* Белый фон для статистики */
+  --stat-text-color: #4b0082; /* Темно-фиолетовый текст для статистики */
 }
 
 * {
@@ -17,9 +20,24 @@
 }
 
 body {
+  font-family: 'Inter', sans-serif;
   min-width: 320px;
   min-height: 100vh;
-  background: background-color;
-  font-family: "Inter", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
 
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 50px 0;
+}
+
+.statistics {
+  background-color: var(--stat-bg-color);
+  color: var(--stat-text-color);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
 }

@@ -1,14 +1,14 @@
 import { create } from "zustand";
 
-export const useTimerStore = create<{
+export const useTimer = create<{
   time: number;
   isRunning: boolean;
   startTimer: () => void;
   stopTimer: () => void;
-  resetTimer: (initialTime: number) => void;
+  resetTimer: () => void;
   decrementTime: () => void;
 }>((set, get) => ({
-  time: 10,
+  time: 60,
   isRunning: false,
   startTimer: () => {
     set({ isRunning: true });
@@ -26,8 +26,8 @@ export const useTimerStore = create<{
   stopTimer: () => {
     set({ isRunning: false });
   },
-  resetTimer: (initialTime: number) => {
-    set({ time: initialTime, isRunning: false });
+  resetTimer: () => {
+    set({ time: 60, isRunning: false });
   },
   decrementTime: () => set((state) => ({ time: state.time - 1 })),
 }))

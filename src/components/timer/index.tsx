@@ -14,7 +14,7 @@ export const Timer = (props: Props) => {
   return (
     <div className={cls.root}>
       <div>
-      <p>ваш таймер</p>
+        <p>ваш таймер</p>
         <p>{formatTime(time)}</p>
       </div>
       <div className={cls.actionBtns}>
