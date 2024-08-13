@@ -77,7 +77,7 @@ export const InputTextReduce: React.FC<InputTextReduceProps> = React.memo((props
       />
       <label htmlFor='inputText'>
       <div className={cls.textWrapper}>
-        {text.split('').slice(0,22).map((letter, index) => (
+        {text.split('').slice(0,18).map((letter, index) => (
           <span
             className={classNames({
               [cls.errorLetter]: errorStatus && inputText !== letter
